@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    margin: 0;
+}
+
+.editor-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* top navbar */
+#top-navbar-container {
+    height: 7vw;
+    background-color: #dddddd;
+    width: 100%;
+}
+
+/* text editor */
+#text-editor-container {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    min-height: 93vh;
+    background-color: #f6f6f6;
+    flex-direction: row;
+    align-items: flex-start;
+}
+#contenteditable {
+    width: 70%;
+    min-height: 100vh;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #b8b8b8;
+    outline: transparent;
+    padding: 60px 40px;
+    font-size: larger;
+    font-family: Montserrat, sans-serif;
+}
