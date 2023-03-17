@@ -5,7 +5,7 @@ body {
     width: 100%;
     flex-direction: column;
     margin: 0;
-    background-color: #f6f6f6;
+    background-color: #fbfbfb;
     font-family: Montserrat, sans-serif;
 }
 
@@ -22,17 +22,19 @@ body {
     position: sticky;
     background-color: #fbfbfb;
     top: 0px;
-    height: 125px;
+    height: auto;
     width: 100%;
     align-content: space-between;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    display: flex;
 }
 .navbar-section {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: 2vh;
 }
 #navbar-section-1 {
     width: 93%;
@@ -55,29 +57,66 @@ body {
     margin-left: 5px;
 }
 #navbar-section-2 {
-    height: 28%;
+    height: 35px;
     width: 95%;
     border-radius: 20px;
-    background-color: #AAC5D3;
+    background-color: #78c6e8;
+    border: 2px solid #78c6e8;
+}
+#navbar-section-2-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    height: 100%;
+}
+#navbar-section-2-left {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+}
+#navbar-section-2-right {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+}
+.navbar-section-2-btn {
+    margin: 0px 5px;
+    padding: 2px 5px;
+    color: white;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    border-radius: 2px;
+}
+.navbar-section-2-btn:hover {
+    cursor: pointer;
+    color: #63b7db;
+    background-color: rgb(245, 245, 245);
 }
 
 /* text editor */
 #text-editor-container {
-    padding-top: 5vh;
+    padding-top: 10vh;
     padding-bottom: 10vh;
     min-height: 93vh;
-    background-color: #f3f3f3;
+    /* background-color: #f3f3f3; */
     flex-direction: row;
     align-items: flex-start;
 }
 #contenteditable {
-    width: 60%;
+    width: 55%;
     min-height: 100vh;
     background-color: white;
     border-radius: 3px;
     border: 1px solid #b8b8b8;
     outline: transparent;
-    padding: 100px 80px;
+    padding: 20px 80px;
     font-size: larger;
     font-family: Montserrat, sans-serif;
 }
