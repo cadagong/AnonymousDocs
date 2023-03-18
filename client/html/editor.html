@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Add</title>
+        <title>AnonymousDocs</title>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="../js/editor.js"></script>
         <link rel="stylesheet" type="text/css" href="../css/editor.css">
     </head>
@@ -11,7 +12,10 @@
         <!-- top navbar section -->
         <div id="top-navbar-container" class="editor-section">
             <div id="navbar-section-1" class="navbar-section">
-                <div id="filename">[ Project Name/File Name ]</div>
+                <div id="logo-and-filname-container">
+                    <img id="logo" src="../images/logo.svg" loading="lazy">
+                    <div id="filename">[ My File Name ]</div>
+                </div>                
                 <div id="online-users-container">
                     <div class="online-user" style="background: #e5fffd; border: 2px solid #009688;">L</div>
                     <div class="online-user" style="background: #ffc5d9; border: 2px solid #E91E63;">S</div>
@@ -33,7 +37,10 @@
 
         <!-- text editable section (contenteditable)-->
         <div id="text-editor-container" class="editor-section">
-            <div id="contenteditable" contenteditable="true">
+            <textarea id="md-textarea" class="text-editor-content">
+
+            </textarea>
+            <div id="md-preview" class="text-editor-content">
 
             </div>
         </div>
