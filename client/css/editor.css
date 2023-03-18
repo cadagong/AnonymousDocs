@@ -37,12 +37,12 @@ textarea {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 3vh;
+    margin-top: 2vh;
 }
 #navbar-section-1 {
     width: 97%;
     justify-content: space-between;
-    height: 30px;
+    height: 25px;
 }
 #logo-and-filname-container {
     display: flex;
@@ -66,8 +66,8 @@ textarea {
     flex-direction: row;
 }
 .online-user {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     /* height: 40px; */
     display: flex;
     align-items: center;
@@ -77,13 +77,12 @@ textarea {
 }
 #navbar-section-2 {
     height: 35px;
-    width: 95%;
+    width: 98%;
     border-radius: 20px;
     background-color: #ffffff;
     box-shadow: 0px 0px 7px 2px #eeeeee;
     color: black;
     /* border: 2px solid #78c6e8; */
-    margin-top: 3vh;
 }
 #navbar-section-2-container {
     display: flex;
