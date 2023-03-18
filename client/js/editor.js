@@ -10,6 +10,26 @@ window.addEventListener('load', function() {
     getLocalStorage();
 })
 
+function download(text){
+    const element = document.createElement('a');
+  
+    // A blob is a data type that can store binary data
+    // "type" is a MIME type
+    // It can have a different value, based on a file you want to save
+    const blob = new Blob([text], { type: 'text/markdown' });
+    const fileUrl = URL.createObjectURL(blob);
+    const filename = document.getElementById('filename').innerHTML;
+    
+    // setAttribute() Sets the value of an attribute on the specified element.
+    element.setAttribute('href', fileUrl); // file location
+    element.setAttribute('download', filename); // file name
+    element.style.display = 'none';
+    
+    //use appendChild() method to move an element from one element to another
+    document.body.appendChild(element);
+    element.click();
+}
+
 
 function setEventListeners() {
     // text area listeners
@@ -22,13 +42,22 @@ function setEventListeners() {
     // navbar btns listeners
     const btnNames = ['download', 'share', 'chat'];
     btnNames.forEach((btnName) => {
-        const downloadBtn = document.getElementById(`${btnName}-btn`);
-        downloadBtn.addEventListener('mouseover', function() {
-            downloadBtn.src = `${IMAGES_PATH}/${btnName}-colour.svg`;
+        const btn = document.getElementById(`${btnName}-btn`);
+        btn.addEventListener('mouseover', function() {
+            btn.src = `${IMAGES_PATH}/${btnName}-colour.svg`;
         });
-        downloadBtn.addEventListener('mouseout', function() {
-            downloadBtn.src = `${IMAGES_PATH}/${btnName}-bw.svg`;
+        btn.addEventListener('mouseout', function() {
+            btn.src = `${IMAGES_PATH}/${btnName}-bw.svg`;
         });
+
+        switch(btnName) {
+            case "download":
+                btn.addEventListener('click', function() {
+                    download(document.getElementById('md-textarea').value)
+                })
+                break;
+
+        }
     })
 }
 
