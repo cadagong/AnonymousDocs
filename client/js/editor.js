@@ -1,27 +1,35 @@
 
-
+const IMAGES_PATH = '../images';
 
 
 window.addEventListener('load', function() {
+    const textArea = document.getElementById('md-textarea');
+    textArea.focus();
+
     setEventListeners();
     getLocalStorage();
 })
 
 
 function setEventListeners() {
-    const contentEditable = document.querySelector('#md-textarea');
-    contentEditable.addEventListener('keyup', function(e) {
+    // text area listeners
+    const textArea = document.getElementById('md-textarea');
+    textArea.addEventListener('input', function(e) {
         setLocalStorage();
         updatePreview();
     });
-    contentEditable.addEventListener('paste', function(e) {
-        setLocalStorage();
-        updatePreview();
-    });
-    contentEditable.addEventListener('input', function(e) {
-        setLocalStorage();
-        updatePreview();
-    });
+
+    // navbar btns listeners
+    const btnNames = ['download', 'share', 'chat'];
+    btnNames.forEach((btnName) => {
+        const downloadBtn = document.getElementById(`${btnName}-btn`);
+        downloadBtn.addEventListener('mouseover', function() {
+            downloadBtn.src = `${IMAGES_PATH}/${btnName}-colour.svg`;
+        });
+        downloadBtn.addEventListener('mouseout', function() {
+            downloadBtn.src = `${IMAGES_PATH}/${btnName}-bw.svg`;
+        });
+    })
 }
 
 
@@ -32,7 +40,7 @@ function updatePreview() {
 
 
 function getLocalStorage() {
-    const contentEditable = document.querySelector('#md-textarea');
+    const textArea = document.querySelector('#md-textarea');
     let existingData = JSON.parse(window.localStorage.getItem('anonymous-docs-text-data'));
     
     if (!existingData) {
@@ -40,13 +48,13 @@ function getLocalStorage() {
         window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(existingData));
     }
     else {
-        contentEditable.innerHTML = existingData;
+        textArea.value = existingData;
         updatePreview();
     } 
 }
 
 
 function setLocalStorage() {
-    const contentEditable = document.querySelector('#md-textarea');
-    window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(contentEditable.innerHTML));
+    const textArea = document.querySelector('#md-textarea');
+    window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(textArea.value));
 }
