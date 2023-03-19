@@ -2,14 +2,24 @@
 const IMAGES_PATH = '../images';
 
 
+/**
+ * On window load, focus text area, set event listeners, 
+ * and retrieve textarea text from localStorage.
+ */
 window.addEventListener('load', function() {
-    const textArea = document.getElementById('md-textarea');
-    textArea.focus();
-
     setEventListeners();
     getLocalStorage();
+
+    const textArea = document.getElementById('md-textarea');
+    textArea.focus();
 })
 
+
+/**
+ * Download the contents of the textarea as a markdown file
+ * 
+ * @param {String} text The text inside the textarea
+ */
 function download(text){
     const element = document.createElement('a');
   
@@ -31,6 +41,9 @@ function download(text){
 }
 
 
+/**
+ * Set all the necessary event listeners on the page
+ */
 function setEventListeners() {
     // text area listeners
     const textArea = document.getElementById('md-textarea');
@@ -62,12 +75,18 @@ function setEventListeners() {
 }
 
 
+/**
+ * Update the markdown preview to display latest changes in textarea
+ */
 function updatePreview() {
     const text = document.getElementById('md-textarea').value;
     document.getElementById('md-preview').innerHTML = marked.parse(text);
 }
 
 
+/**
+ * Get saved textarea text from localStorage
+ */
 function getLocalStorage() {
     const textArea = document.querySelector('#md-textarea');
     let existingData = JSON.parse(window.localStorage.getItem('anonymous-docs-text-data'));
@@ -83,6 +102,9 @@ function getLocalStorage() {
 }
 
 
+/**
+ * Save textarea text to localStorage
+ */
 function setLocalStorage() {
     const textArea = document.querySelector('#md-textarea');
     window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(textArea.value));
