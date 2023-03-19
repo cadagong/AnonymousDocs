@@ -6,10 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
-@ComponentScan("ca.mcgill.ca.documentserver.model.*")
-@EntityScan("ca.mcgill.ca.documentserver.model.*")
-@EnableJpaRepositories(basePackages = "ca.mcgill.documentserver.model.*")
+@SpringBootApplication(scanBasePackages = {"ca.mcgill.documentserver"})
+@EnableJpaRepositories("ca.mcgill.documentserver")
+@EntityScan("ca.mcgill.documentserver")
 public class Launcher {
 
   /**

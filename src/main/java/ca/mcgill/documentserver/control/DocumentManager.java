@@ -10,5 +10,9 @@ public class DocumentManager {
   public String online() {
     return "Up and Running\n";
   }
+  
+  DocumentManager() {
+    System.out.println("In here");
+  }
 
 }
