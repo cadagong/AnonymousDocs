@@ -1,4 +1,4 @@
-package ca.mcgill.documentserver.model;
+package ca.mcgill.documentserver.control;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

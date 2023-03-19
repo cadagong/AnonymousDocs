@@ -1,9 +1,11 @@
-package ca.mcgill.documentserver.model;
+package ca.mcgill.documentserver.control;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
   
   @Id

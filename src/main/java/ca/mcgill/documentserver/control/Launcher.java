@@ -7,9 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan("ca.mcgill.ca.documentserver.model.*")
-@EntityScan("ca.mcgill.ca.documentserver.model.*")
-@EnableJpaRepositories(basePackages = "ca.mcgill.documentserver.model.*")
+@EnableJpaRepositories
 public class Launcher {
 
   /**
