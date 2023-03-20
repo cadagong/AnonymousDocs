@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.documentserver.model.LoginForm;
 import ca.mcgill.documentserver.model.Role;
 import ca.mcgill.documentserver.model.User;
+import ca.mcgill.documentserver.model.UserForm;
 import ca.mcgill.documentserver.model.UserRepository;
 
 @RestController
@@ -32,14 +33,18 @@ public class LoginManager {
     encoder = new BCryptPasswordEncoder(12, new SecureRandom());
   }
   
-  @PutMapping("/api/players/{playername}")
-  public String addPlayer(@PathVariable String playername, @RequestBody String password) {
-    if (repository.findById(playername).isPresent()) {
+  @PutMapping("/api/users")
+  public String addPlayer(@RequestBody UserForm userForm) {
+    if (!tokenManager.validateToken(userForm.getToken()) 
+        || !tokenManager.hasAuthority(userForm.getToken())) {
+      return "Invalid Credentials\n";
+    }
+    if (repository.findById(userForm.getUsername()).isPresent()) {
       return "Name already taken\n";
     }
-    User newUser = new User(playername, Role.ADMIN, encoder.encode(password));
+    User newUser = new User(userForm.getUsername(), userForm.getRole(), encoder.encode(userForm.getPassword()));
     repository.saveAndFlush(newUser);
-    return playername;
+    return userForm.getUsername();
   }
   
   @PostMapping(value = "/api/login", consumes = "application/json; charset=utf-8")
@@ -51,10 +56,10 @@ public class LoginManager {
         repository.findById(loginForm.getUsername()).get().getPassword())) {
       return "Invalid Credentials2\n";
     }
-    return tokenManager.getToken();
+    return tokenManager.getToken(repository.findById(loginForm.getUsername()).get());
   }
   
-  @GetMapping("/api/players")
+  @GetMapping("/api/users")
   public String getPlayers() {
     String ret = "";
     for (User name : repository.findAll()) {
