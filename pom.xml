@@ -39,6 +39,13 @@
             <version>8.0.27</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mindrot.bcrypt/bcrypt -->
+		<dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>2.3.0.RELEASE</version>
+        </dependency>
+        
     </dependencies>
     
     <build>
