@@ -3,10 +3,11 @@ package ca.mcgill.documentserver.control;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = {"ca.mcgill.documentserver"})
+
+@SpringBootApplication(scanBasePackages = {"ca.mcgill.documentserver"}, exclude = { SecurityAutoConfiguration.class })
 @EnableJpaRepositories("ca.mcgill.documentserver")
 @EntityScan("ca.mcgill.documentserver")
 public class Launcher {
