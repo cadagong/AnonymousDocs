@@ -19,13 +19,12 @@ public class TokenManager {
   
   private List<String> tokens;
   
-  @SuppressWarnings("deprecation") 
   public boolean validateToken(String token) {
     if (!tokens.contains(token)) {
       return false;
     }
     try {
-       Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token);
+       Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
     }
     catch (JwtException e) {
       return false;
