@@ -4,7 +4,7 @@ public class LoginForm {
   
   private String username;
   private String password;
-
+  
   public LoginForm() {}
   
   public LoginForm(String username, String password) {

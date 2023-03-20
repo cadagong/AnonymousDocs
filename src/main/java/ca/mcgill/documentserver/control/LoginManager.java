@@ -22,6 +22,9 @@ public class LoginManager {
   @Autowired
   UserRepository repository;
   
+  @Autowired 
+  TokenManager tokenManager;
+  
   BCryptPasswordEncoder encoder;
   
   public LoginManager() {
@@ -48,7 +51,7 @@ public class LoginManager {
         repository.findById(loginForm.getUsername()).get().getPassword())) {
       return "Invalid Credentials2\n";
     }
-    return "Token";
+    return tokenManager.getToken();
   }
   
   @GetMapping("/api/players")
