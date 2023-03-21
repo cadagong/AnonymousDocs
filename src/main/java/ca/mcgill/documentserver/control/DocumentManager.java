@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DocumentManager {
   
-  @GetMapping("/api/online")
+  @GetMapping("/online")
   public String online() {
     return "Up and Running\n";
   }

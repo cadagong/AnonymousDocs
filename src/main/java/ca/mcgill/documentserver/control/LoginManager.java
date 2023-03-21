@@ -33,7 +33,7 @@ public class LoginManager {
     encoder = new BCryptPasswordEncoder(12, new SecureRandom());
   }
   
-  @PutMapping("/api/users")
+  @PutMapping("/users")
   public String addPlayer(@RequestBody UserForm userForm) {
     if (!tokenManager.validateToken(userForm.getToken()) 
         || !tokenManager.hasAuthority(userForm.getToken())) {
@@ -47,7 +47,7 @@ public class LoginManager {
     return userForm.getUsername();
   }
   
-  @PostMapping(value = "/api/login", consumes = "application/json; charset=utf-8")
+  @PostMapping(value = "/login", consumes = "application/json; charset=utf-8")
   public String login(@RequestBody LoginForm loginForm) {
     if (!repository.findById(loginForm.getUsername()).isPresent()) {
       return "Invalid Credentials1\n";
@@ -59,7 +59,7 @@ public class LoginManager {
     return tokenManager.getToken(repository.findById(loginForm.getUsername()).get());
   }
   
-  @GetMapping("/api/users")
+  @GetMapping("/users")
   public String getPlayers() {
     String ret = "";
     for (User name : repository.findAll()) {
