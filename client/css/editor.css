@@ -5,7 +5,6 @@ body {
     width: 100%;
     flex-direction: column;
     margin: 0;
-    background-color: white;
     font-family: Montserrat, sans-serif;
 }
 textarea {
@@ -20,16 +19,27 @@ textarea {
     height: 100%;
 }
 
+#editor-page-main-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 111px;
+    /* background-color: #f9f9f9; */
+    flex-direction: column;
+    /* border-bottom: 1px solid #dddcdc; */
+}
+
 /* top navbar */
 #top-navbar-container {
     position: sticky;
-    background-color: white;
+    /* background-color: white; */
     top: 0px;
-    height: auto;
+    height: 45px;
     width: 100%;
     align-content: space-between;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     display: flex;
 }
 .navbar-section {
@@ -37,12 +47,11 @@ textarea {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 2vh;
 }
 #navbar-section-1 {
     width: 97%;
     justify-content: space-between;
-    height: 25px;
+    height: 80%;
 }
 #logo-and-filname-container {
     display: flex;
@@ -51,19 +60,23 @@ textarea {
     align-items: center;
 }
 #logo {
-    height: 50px;    
-    width: 50px;
-    margin-right: 2vw;
+    height: 35px;    
+    margin-right: 1vw;
     cursor: pointer;
 }
 #filename {
     font-size: larger;
+}
+#network-status {
+    color: grey;
 }
 #online-users-container {
     display: flex;
     height: 100%;
     width: auto;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
 .online-user {
     width: 25px;
@@ -95,7 +108,8 @@ textarea {
 #navbar-section-2-left {
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 60%;
+    width: 98%;
     align-items: center;
 }
 #navbar-section-2-right {
@@ -126,36 +140,200 @@ textarea {
 
 /* text editor */
 #text-editor-container {
-    /* padding-bottom: 5vh; */
-    height: 80vh;
-    /* bottom: 0px; */
-    top: 120px;
+    height: 90vh;
+    top: 55px;
     position: absolute;
-    /* min-height: 93vh; */
-    /* background-color: #f3f3f3; */
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    border-radius: 3px;
+    overflow: hidden;
+    justify-content: space-between;
+}
+#text-editor-header {
+    height: 8%;
+    width: 100%;
+    background-color: rgb(240 240 240 / 48%);
+    border-radius: 3px 3px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navbar-divider {
+    height: 100%;
+    margin: 0 0.5vw;
+    width: 1px;
+    background-color: rgba(215, 215, 215, 0);
+    border-radius: 3px;
+}
+#text-editor-wrapper {
     flex-direction: row;
     align-items: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    overflow: scroll;
+    width: 96%;
+    height: 90%;
+    border: 1px solid #dddcdc;
+    border-radius: 3px 3px 3px 3px;
+    background-color: white;
+    box-shadow: 0px 0px 20px 5px #ececec;
 }
 .text-editor-content {
-    width: 44%;
-    padding: 20px;
-    height: 90%;
+    /* padding: 20px; */
     background-color: white;
     border-radius: 3px;
-    border: 1px solid #b8b8b8;
+    /* border: 1px solid #b8b8b8; */
     outline: transparent;
     /* padding: 20px 80px; */
-    font-size: larger;
+    font-size: large;
     font-family: Montserrat, sans-serif;
 }
-#md-textarea {
+#document-sections-container {
+    width: 48%;
+    /* padding: 20px; */
+    height: 100%;
+    background-color: white;
+    border-radius: 3px;
+    /* border: 1px solid #b8b8b8; */
+    outline: transparent;
+    /* padding: 20px 80px; */
+    font-size: large;
+    font-family: Montserrat, sans-serif;
     border-radius: 3px 0px 0px 3px;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+.document-section-heading {
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    margin: 1.5vh 0;
+    justify-content: space-between;
+}
+.document-section-title {
+    margin: 20px 0px;
+    color: rgb(137 137 137);
+}
+.edit-document-section-btn {
+    height: 60%;
+    cursor: pointer;
+}
+.md-textarea {
+    min-height: 500px;
+    border: 0px;
+    background-color: #f4f4f4a3;
+    border-radius: 5px;
+    margin-bottom: 1vh;
+    padding: 20px;
+}
+#text-editor-setion-divider {
+    width: 1px;
+    height: 100%;
+    background-color: rgb(221 220 220);
 }
 #md-preview {
     border-radius: 0px 3px 3px 0px;
     border-left: 0px;
     overflow: scroll;
     overflow-wrap: anywhere;
+    width: 48%;
+    /* padding: 20px; */
+    height: 100%;
+    background-color: white;
+    /* border: 1px solid #b8b8b8; */
+    outline: transparent;
+    /* padding: 20px 80px; */
+    font-size: large;
+    font-family: Montserrat, sans-serif;
+}
+
+
+/* modal */
+#modal {
+    position: absolute;
+    width: 50vw;
+    height: 60vh;
+    top: calc(50% - 30vh);
+    left: calc(50% - 25vw);
+    overflow: hidden;
+    box-shadow: 0px 0px 25px 8px #dddddd;
+    border-radius: 5px;
+    background-color: rgb(245 245 245);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    display: none;
+}
+.modal-section {
+    width: 100%;
+    display: flex;
+}
+#modal-header {
+    height: 10%;
+    justify-content: center;
+    background-color: #AB3089;
+    color: white;
+}
+#modal-header-content-container {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+#modal-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-weight: 600;
+    color: white;
+}
+#close-modal-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+    cursor: pointer;
+    color: white;
+}
+#close-modal-btn:hover {
+    color: #fa8d01;
+}
+#modal-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 90%;
+    justify-content: center;
+    align-content: space-around;
+}
+.modal-content-subsection {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    align-items: center;
+}
+#modal-content-add-collab {
+    border-right: 2px solid #d8d8d8;
+}
+.modal-content-subtitle {
+    color: #a0a0a0;
+    font-size: larger;
+    height: 10%;
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+}
+#modal-content-subsection-left {
+    height: 90%;
+}
+#modal-content-subsection-right {
+    border-left: 1px solid grey;
 }

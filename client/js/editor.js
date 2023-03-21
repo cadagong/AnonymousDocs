@@ -1,4 +1,3 @@
-
 const IMAGES_PATH = '../images';
 
 
@@ -10,9 +9,43 @@ window.addEventListener('load', function() {
     setEventListeners();
     getLocalStorage();
 
-    const textArea = document.getElementById('md-textarea');
+    const textArea = document.querySelector('.md-textarea');
     textArea.focus();
 })
+
+
+function addDocumentSections() {
+
+}
+
+/**
+ * Open modal with specified view
+ * 
+ * @param {String} view  The view to be displaye din the modal.
+ *                  options are: 'collab-settings', 'edit-document-section', 'add-document-section' 
+ * @param {Object} options View options object. Options depend on the view.
+ */
+function openModal(view, options) {
+    switch (view) {
+        case 'collab-settings':
+            document.getElementById('modal-title').innerHTML = 'Collaborator Settings';
+            document.getElementById('modal-content').innerHTML = COLLAB_SETTINGS;
+            break;
+        
+        case 'edit-document-section':
+            //const documentSectionID = options.documentSectionID;
+            document.getElementById('modal-title').innerHTML = 'Edit Document Section Settings';
+            document.getElementById('modal-content').innerHTML = EDIT_DOCUMENT_SECTION;
+            break;
+
+        case 'add-document-section':
+            document.getElementById('modal-title').innerHTML = 'Add Document Section';
+            break;
+    }
+
+    document.getElementById('modal').style.display = 'inline';
+    //document.getElementById('editor-page-main-content').style.filter = 'blur(2px)';
+}
 
 
 /**
@@ -46,16 +79,44 @@ function download(text){
  */
 function setEventListeners() {
     // text area listeners
-    const textArea = document.getElementById('md-textarea');
-    textArea.addEventListener('input', function(e) {
-        setLocalStorage();
-        updatePreview();
+    const textAreas = Array.from(document.querySelectorAll('.md-textarea'));
+    textAreas.forEach((textArea) => {
+        textArea.addEventListener('input', function(e) {
+            setLocalStorage();
+            updatePreview();
+        });
     });
 
-    // navbar btns listeners
-    const btnNames = ['download', 'share', 'chat'];
-    btnNames.forEach((btnName) => {
-        const btn = document.getElementById(`${btnName}-btn`);
+
+    // edit document section btn listens
+    const editDocumentSectionBtns = Array.from(document.querySelectorAll('.edit-document-section-btn'));
+    editDocumentSectionBtns.forEach((btn) => {
+        btn.addEventListener('mouseover', function() {
+            btn.src = `${IMAGES_PATH}/edit-document-section-colour.svg`;
+        });
+        btn.addEventListener('mouseout', function() {
+            btn.src = `${IMAGES_PATH}/edit-document-section-bw.svg`;
+        });
+        btn.addEventListener('click', function() {
+            openModal('edit-document-section');
+        });
+    });
+
+    // close modal listeners
+    const closeModalBtn = document.getElementById('close-modal-btn')
+    closeModalBtn.addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'none';
+    });
+    document.body.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.getElementById('modal').style.display = 'none';
+        }
+    }) 
+
+    // download, share, and chat btns liteners
+    const navbarBtnNames = ['download', 'collab-settings', 'chat', 'add-document-section']
+    navbarBtnNames.forEach((btnName) => {
+        const btn = document.getElementById(`${btnName}-btn`)
         btn.addEventListener('mouseover', function() {
             btn.src = `${IMAGES_PATH}/${btnName}-colour.svg`;
         });
@@ -63,13 +124,24 @@ function setEventListeners() {
             btn.src = `${IMAGES_PATH}/${btnName}-bw.svg`;
         });
 
-        switch(btnName) {
-            case "download":
+        switch (btnName) {
+            case 'collab-settings':
                 btn.addEventListener('click', function() {
-                    download(document.getElementById('md-textarea').value)
-                })
+                    openModal('collab-settings');
+                });
+                break;
+            
+            case 'download':
+                btn.addEventListener('click', function() {
+                    download();
+                });
                 break;
 
+            case 'add-document-section':
+                btn.addEventListener('click', function() {
+                    openModal('add-document-section');
+                });
+                break;
         }
     })
 }
@@ -79,8 +151,14 @@ function setEventListeners() {
  * Update the markdown preview to display latest changes in textarea
  */
 function updatePreview() {
-    const text = document.getElementById('md-textarea').value;
-    document.getElementById('md-preview').innerHTML = marked.parse(text);
+    const textAreas = Array.from(document.querySelectorAll('.md-textarea'));
+    
+    let content = '';
+    textAreas.forEach((textArea) => {
+        content += `\n${textArea.value}`;
+    });
+
+    document.getElementById('md-preview').innerHTML = marked.parse(content);
 }
 
 
@@ -88,7 +166,7 @@ function updatePreview() {
  * Get saved textarea text from localStorage
  */
 function getLocalStorage() {
-    const textArea = document.querySelector('#md-textarea');
+    const textArea = document.querySelector('.md-textarea');
     let existingData = JSON.parse(window.localStorage.getItem('anonymous-docs-text-data'));
     
     if (!existingData) {
@@ -106,6 +184,6 @@ function getLocalStorage() {
  * Save textarea text to localStorage
  */
 function setLocalStorage() {
-    const textArea = document.querySelector('#md-textarea');
+    const textArea = document.querySelector('.md-textarea');
     window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(textArea.value));
 }
