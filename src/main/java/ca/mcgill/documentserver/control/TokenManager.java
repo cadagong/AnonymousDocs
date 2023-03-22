@@ -29,7 +29,7 @@ public class TokenManager {
       return false;
     }
     try {
-       Claims claims = Jwts.parserBuilder()
+       Jwts.parserBuilder()
        .setSigningKey(getSigningKey())
        .build()
        .parseClaimsJws(token).getBody();

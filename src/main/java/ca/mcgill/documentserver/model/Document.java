@@ -1,11 +1,15 @@
 package ca.mcgill.documentserver.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -14,13 +18,27 @@ import javax.persistence.Table;
 public class Document {
   
   @Id
-  @GeneratedValue(strategy= GenerationType.AUTO)
-  private int documentId;
+  private Integer documentId = 0;
   
   @OneToMany
-  List<DocumentSection> sections;
+  @JoinColumn(name = "section_id")
+  private List<DocumentSection> sections = new ArrayList<DocumentSection>();
   
-  @OneToMany
-  List<User> contributors;
+  @ManyToMany
+  @JoinTable(name = "document_users", 
+  joinColumns = @JoinColumn(name = "doc_id", referencedColumnName = "documentId"), 
+  inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
+  private List<User> contributors = new ArrayList<User>();
+  
+  
+  public Document() {}
+  
+  public void addContributor(User user) {
+    contributors.add(user);
+  }
+  
+  public void addSection(DocumentSection section) {
+    sections.add(section);
+  }
 
 }

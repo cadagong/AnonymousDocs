@@ -1,10 +1,8 @@
 package ca.mcgill.documentserver.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,11 +10,10 @@ import javax.persistence.Table;
 public class DocumentSection {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public Long id;
+  @Column(name="section_id")
+  public Integer id = 0;
   
-  @ManyToOne
-  private Document document;
+  public String content;
   
   public DocumentSection() {
     
