@@ -12,6 +12,11 @@ const SERVER_PORT = parseInt(process.env.SERVER_PORT)
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 const TOKEN_EXP_SECS = parseInt(process.env.TOKEN_EXP_SECS)
 
+const mapSectionQueue = new Map(); 
+
+// access queue
+// editor.html
+
 let signToken = (student) => {
     return JWToken.sign({ 
         id: student._id.toString()
@@ -310,7 +315,8 @@ app.get("/document/viewall", (req, res) => {
         DocumentDAO.Document.find({
             '_id': { $in: student.documents }
         }).then((docsFound) => {
-            res.json({ success: true, error: docsFound })
+            delete student.password
+            res.json({ success: true, doc: docsFound, user: student })
         }).catch((err) => {
             res.json({ success: false, error: "2" })
         })
@@ -364,7 +370,6 @@ app.post("/document/createsection", (req, res) => {
         .then((doc) => {
             if (student.documents.includes(doc._id.toString())) {
                 doc.section.push("")
-                doc.sectionQueue.push([])
                 doc.save().then((docsv) => {
                     res.json({ success: true, error: docsv })
                 }).catch((errd) => {
@@ -390,6 +395,21 @@ app.post("/document/writesection", (req, res) => {
             res.json({ success: false, error: "document must have id" })
             return
         }
+        /*let docId = req.body.id;
+        let stuId = student._id.toString();
+        if (!mapSectionQueue.has(docId)) {
+            mapSectionQueue.set(docId, [])
+        }
+        let currDocQueue = mapSectionQueue.get(docId)
+        if (!currDocQueue.includes(stuId)) {
+            currDocQueue.push(stuId)
+        }
+        if (currDocQueue[0] === stuId) {
+            // grant access
+            
+        } else {
+            res.json({ success: false, error: err })
+        }*/
         DocumentDAO.Document.findOne({ _id: req.body.id })
         .then((doc) => {
             if (student.documents.includes(doc._id.toString())) {
