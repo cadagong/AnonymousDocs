@@ -22,7 +22,8 @@ function addDocumentSections() {
  * Open modal with specified view
  * 
  * @param {String} view  The view to be displaye din the modal.
- *                  options are: 'collab-settings', 'edit-document-section', 'add-document-section' 
+ *      options are: 'collab-settings', 'edit-document-section', 'add-document-section' 
+ * 
  * @param {Object} options View options object. Options depend on the view.
  */
 function openModal(view, options) {
