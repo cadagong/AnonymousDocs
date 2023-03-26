@@ -3,6 +3,7 @@ const JWToken = require("jsonwebtoken")
 const BodyParser = require("body-parser")
 const BCrypt = require("bcryptjs")
 const Mongoose = require("mongoose")
+const Path = require("path")
 
 require("dotenv").config();
 
@@ -51,6 +52,9 @@ let checkToken = (req) => {
 }
 
 const app = Express()
+
+app.use(Express.static(Path.join(__dirname, "/client")))
+
 app.use(BodyParser.json())
 
 try {
