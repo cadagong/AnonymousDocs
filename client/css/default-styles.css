@@ -26,7 +26,7 @@ width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #589ed5;
+    color: #ab3089;
 }
 .navbar-content-container {
     display: flex;
@@ -51,7 +51,7 @@ width: 80%;
     border-radius: 3px;
 }
 .navbar-link:hover {
-    background-color: #589ed5;
+    background-color: #AB3089;
     color: white;
 }
 #home-link {
@@ -73,7 +73,7 @@ width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    color: #589ed5;
+    color: #AB3089;
     overflow: scroll;
     align-items: center;
 }

@@ -30,7 +30,7 @@ let checkToken = (req) => {
     return new Promise((res, rej) => {
         if (req.headers && req.headers.authorization) {
             let auth = req.headers.authorization.split(' ')[1];
-            let decoded
+            let decoded;
             try {
                 decoded = JWToken.verify(auth, SECRET_CODE)
             } catch (e) {
@@ -59,8 +59,7 @@ app.use(BodyParser.urlencoded({ extended: true }));
 
 
 try {
-    Mongoose.connect(DB_URL, 
-        { useNewUrlParser: true, useUnifiedTopology: true })
+    Mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 } catch (err) {
     console.log(err);
 }
@@ -71,6 +70,29 @@ const DocumentDAO = require("./document")
 app.listen(SERVER_PORT, () => {
     console.log("server up at " + SERVER_PORT)
 })
+
+
+app.get("/", (req, res) => {
+    res.sendFile(Path.join(__dirname, "/client/html/homepage.html"))
+})
+
+app.get("/login", (req, res) => {
+    res.sendFile(Path.join(__dirname, "/client/html/login.html"))
+})
+
+app.get("/sign-up", (req, res) => {
+    res.sendFile(Path.join(__dirname, "/client/html/sign-up.html"))
+})
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(Path.join(__dirname, "/client/html/dashboard.html"))
+})
+
+app.get("/editor", (req, res) => {
+    res.sendFile(Path.join(__dirname, "/client/html/editor.html"))
+})
+
+
 app.post("/user/signup", (req, res) => {
     if (!req.body.username || !req.body.password) {
         res.json({ success: false, error: "signup info not complete"})
@@ -98,12 +120,13 @@ app.post("/user/login", (req, res) => {
     StudentDAO.Student.findOne({ username: req.body.username })
     .then((student) => {
         if (!student) {
-            res.sendFile(Path.join(__dirname, "/client/html/login.html"))
-            // res.json({ success: false, error: "user not exist"})
+            // res.sendFile(Path.join(__dirname, "/client/html/login.html"))
+            res.json({ success: false, error: "Username does not exist."})
             return
         }
         if (!BCrypt.compareSync(req.body.password, student.password)) {
-            res.json({ success: false, error: "wrong pass" })
+            // res.sendFile(Path.join(__dirname, "/client/html/login.html"))
+            res.json({ success: false, error: "Wrong password." })
             return
         }
         delete student.password;

@@ -118,7 +118,7 @@ body {
 }
 
 .landing-page-heading-text {
-    font-size: 15vw;
+    font-size: 12vw;
     overflow: hidden;
     border-right: none;
     opacity: 0;
@@ -131,19 +131,46 @@ body {
     animation: settleDown 0.7s ease-in-out 0s forwards;
 }
 #letter-2 {
-    animation: settleDown 0.7s ease-in-out 0.3s forwards;
+    animation: settleDown 0.7s ease-in-out 0.1s forwards;
 }
 #letter-3 {
-    animation: settleDown 0.7s ease-in-out 0.5s forwards;
+    animation: settleDown 0.7s ease-in-out 0.2s forwards;
 }
 #letter-4 {
+    animation: settleDown 0.7s ease-in-out 0.3s forwards;
+}
+#letter-5 {
+    animation: settleDown 0.7s ease-in-out 0.4s forwards;
+}
+#letter-6 {
+    animation: settleDown 0.7s ease-in-out 0.5s forwards;
+}
+#letter-7 {
+    animation: settleDown 0.7s ease-in-out 0.6s forwards;
+}
+#letter-8 {
+    animation: settleDown 0.7s ease-in-out 0.7s forwards;
+}
+#letter-9 {
     animation: settleDown 0.7s ease-in-out 0.8s forwards;
+}
+#letter-10 {
+    animation: settleDown 0.7s ease-in-out 0.9s forwards;
+}
+#letter-11 {
+    animation: settleDown 0.7s ease-in-out 1s forwards;
+}
+#letter-12 {
+    animation: settleDown 0.7s ease-in-out 1.1s forwards;
+}
+#letter-13 {
+    animation: settleDown 0.7s ease-in-out 1.2s forwards;
 }
 #landing-page-secondary-heading {
     color: #AB3089;
     opacity: 0;
-    font-size: 3vw;
-    margin-top: -2vw;
+    font-size: 2vw;
+    margin-top: 1vw;
     animation: settleDown 1s ease-in-out 1.8s forwards;
 }
 
@@ -151,7 +178,7 @@ body {
     color: white;
     padding: 1vw;
     border: 2px solid transparent;
-    background: linear-gradient(45deg, #589ed5, #7ab2b7);
+    background: linear-gradient(45deg, #AB3089, #FB8C00);
     border-radius: 3px;
     display: flex;
     justify-content: center;
@@ -163,8 +190,8 @@ body {
 }
 #access-files-btn-header:hover {
     background: white;
-    border: 2px solid #589fd5cf;
-    background: -webkit-linear-gradient(#589ed5, #7ab2b7);
+    border: 2px solid #FB8C00;
+    background: -webkit-linear-gradient(#AB3089, #AB3089);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -196,7 +223,7 @@ body {
     box-shadow: 0px 0px 40px 3px #9d9d9d75;
 }
 #contributors-list-title {
-    background: -webkit-linear-gradient(#589ed5, #7ab2b7);
+    background: -webkit-linear-gradient(#AB3089, #FB8C00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     align-items: center;
@@ -213,17 +240,17 @@ body {
     margin: 1vw;
     background-color: rgb(234, 234, 234);
     border-radius: 3px;
-    color: #4e8dbccb;
+    color: #AB3089;
     font-weight: 400;
     min-width: 10%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     cursor: pointer;
     height: 13vh;
-    width: 18%;
+    width: 40%;
     flex-grow: 0;
+    align-items: center;
+    justify-content: center;
 }
 .contributors-list-item:hover {
     transform: scale(1.04);
@@ -274,7 +301,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: rgb(206, 206, 206);
+    color: rgb(227, 227, 227);
 }
 #footer-left {
     width: 20%;
@@ -305,6 +332,9 @@ body {
     margin-left: 1vw;
     width: 10%;
     cursor: pointer;
+}
+#github-icon {
+    height: 20px;
 }
 #footer-right {
     width: 50%;
