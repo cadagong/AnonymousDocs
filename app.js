@@ -88,7 +88,8 @@ app.post("/user/signup", (req, res) => {
 })
 
 app.get("/user/login", (req, res) => {
-    if (!req.body.username || !req.body.password) {
+    console.log(req);
+    if (!req.query.username || !req.query.password) {
         res.json({ success: false, error: "login info not complete"})
         return
     }
