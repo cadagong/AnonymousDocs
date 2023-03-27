@@ -53,9 +53,10 @@ let checkToken = (req) => {
 
 const app = Express()
 
-app.use(Express.static(Path.join(__dirname, "/client")))
+app.use(Express.static(Path.join(__dirname, "/client")));
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({ extended: true }));
 
-app.use(BodyParser.json())
 
 try {
     Mongoose.connect(DB_URL, 
@@ -87,16 +88,18 @@ app.post("/user/signup", (req, res) => {
     })
 })
 
-app.get("/user/login", (req, res) => {
-    console.log(req);
-    if (!req.query.username || !req.query.password) {
+app.post("/user/login", (req, res) => {
+    console.log(req.body);
+    if (!req.body.username || !req.body.password) {
         res.json({ success: false, error: "login info not complete"})
+        // res.sendFile(Path.join(__dirname, "/client/html/editor.html"))
         return
     }
     StudentDAO.Student.findOne({ username: req.body.username })
     .then((student) => {
         if (!student) {
-            res.json({ success: false, error: "user not exist"})
+            res.sendFile(Path.join(__dirname, "/client/html/login.html"))
+            // res.json({ success: false, error: "user not exist"})
             return
         }
         if (!BCrypt.compareSync(req.body.password, student.password)) {
