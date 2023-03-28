@@ -4,6 +4,7 @@ const BodyParser = require("body-parser")
 const BCrypt = require("bcryptjs")
 const Mongoose = require("mongoose")
 const Path = require("path")
+const ejs = require('ejs');
 
 require("dotenv").config();
 
@@ -45,7 +46,26 @@ let checkToken = (req) => {
             .catch((err) => {
                 rej("wrong token")
             })
-        } else{
+        } 
+        else if (req.query && req.query.token) {
+            let auth = req.query.token;
+            let decoded;
+            try {
+                decoded = JWToken.verify(auth, SECRET_CODE)
+            } catch (e) {
+                rej(e)
+                return
+            }
+            let stid = decoded.id
+            StudentDAO.Student.findOne({ _id: stid })
+            .then((s) => {
+                res(s)
+            })
+            .catch((err) => {
+                rej("wrong token")
+            })
+        }
+        else{
             rej("no token submitted")
         }
     })
@@ -53,6 +73,9 @@ let checkToken = (req) => {
 
 const app = Express()
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set("views", Path.join(__dirname, "/client/html"));
 app.use(Express.static(Path.join(__dirname, "/client")));
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
@@ -89,7 +112,14 @@ app.get("/dashboard", (req, res) => {
 })
 
 app.get("/editor", (req, res) => {
-    res.sendFile(Path.join(__dirname, "/client/html/editor.html"))
+    console.log(req);
+    checkToken(req)
+    .then((student) => {
+        res.render('editor', { docId: req.query.docId, filename: req.query.docName });
+    })
+    .catch((err) => {
+        res.json({ success: false, error: err })
+    })
 })
 
 
@@ -317,16 +347,17 @@ app.post("/document/quit", (req, res) => {
 })
 
 app.get("/document/view1", (req, res) => {
+    console.log(req);
     checkToken(req)
     .then((student) => {
-        if (!req.body.id) {
+        if (!req.query.id) {
             res.json({ success: false, error: "document must have id" })
             return
         }
-        DocumentDAO.Document.findOne({ _id: req.body.id })
+        DocumentDAO.Document.findOne({ _id: req.query.id })
         .then((doc) => {
             if (student.documents.includes(doc._id.toString())) {
-                res.json({ success: true, error: doc })
+                res.json({ success: true, data: doc })
             } else {
                 res.json({ success: false, error: "unauth access 2 doc" })
             }
@@ -353,7 +384,7 @@ app.get("/document/viewall", (req, res) => {
         })
     })
     .catch((err) => {
-        res.json({ success: false, error: "3" })
+        res.json({ success: false, error: "3", message: err })
     })
 })
 
@@ -400,7 +431,7 @@ app.post("/document/createsection", (req, res) => {
         DocumentDAO.Document.findOne({ _id: req.body.id })
         .then((doc) => {
             if (student.documents.includes(doc._id.toString())) {
-                doc.section.push("")
+                doc.section.push(req.body.name)
                 doc.save().then((docsv) => {
                     res.json({ success: true, error: docsv })
                 }).catch((errd) => {

@@ -35,17 +35,19 @@
                 <div id="uploaded-docs-container" class="dashboard-subsection">
 
                     <div id="uploaded-docs-title" class="dashboard-subsection-title">Your Documents</div>
-                    <div id="uploaded-docs-content" class="dashboard-subsection-content"><div id="no-docs-msg">No documents to show</div></div>
+                    <div id="uploaded-docs-content" class="dashboard-subsection-content">
+                        <div id="no-docs-msg">No documents to show</div>
+                    </div>
 
                 </div>
 
             </div>
 
             <div class="main-section-action-bar">
-                <img id="upload-new-doc-button" class="action-bar-item-container active" src="./Neon-gh/assets/img/new-doc.svg" title="upload">
+                <img id="upload-new-doc-button" class="action-bar-item-container active" src="../images/create-doc-purple.svg" title="upload">
                 <div class="dividing-line action-bar-item-container active"></div>
-                <img id="remove-doc" class="action-bar-item-container" src="./Neon-gh/assets/img/remove-doc.svg" title="delete">
-                <img id="open-doc" class="action-bar-item-container" src="./Neon-gh/assets/img/open-doc.svg" title="open">
+                <!-- <img id="remove-doc" class="action-bar-item-container" src="./Neon-gh/assets/img/remove-doc.svg" title="delete">
+                <img id="open-doc" class="action-bar-item-container" src="./Neon-gh/assets/img/open-doc.svg" title="open"> -->
             </div>
         </div>
 
@@ -65,6 +67,17 @@
                 <div id="neon-modal-window-content-container"></div>
             </div>
         </div>
+
+
+
+
+            <form action="/editor" method="get" id="doc-form">
+                             
+                <input id="doc-name-input" type="text" name="docName" required>            
+                <input id="doc-id-input" type="text" name="docId" required>
+                <input id="token-input" type="hidden" name="token" required>
+
+            </form> 
     </body>
 
   

@@ -7,7 +7,7 @@ const IMAGES_PATH = '../images';
  */
 window.addEventListener('load', function() {
     setEventListeners();
-    getLocalStorage();
+    getDocumentSections();
 
     const textArea = document.querySelector('.md-textarea');
     textArea.focus();
@@ -166,18 +166,40 @@ function updatePreview() {
 /**
  * Get saved textarea text from localStorage
  */
-function getLocalStorage() {
-    const textArea = document.querySelector('.md-textarea');
-    let existingData = JSON.parse(window.localStorage.getItem('anonymous-docs-text-data'));
+function getDocumentSections() {
+    const tokenData = JSON.parse(window.localStorage.getItem('anonymous-docs-token-data'));
+    const token = tokenData.token;
+
+    const request = new XMLHttpRequest();
+    const id = document.getElementById('filename').getAttribute('doc-id');
+    const url = `/document/view1?id=${id}&token=${token}`;
+    request.open("GET", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${token}`);
     
-    if (!existingData) {
-        existingData = "";
-        window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(existingData));
-    }
-    else {
-        textArea.value = existingData;
-        updatePreview();
-    } 
+    request.addEventListener("load", function(){           
+        if (this.status == 200) {
+            console.log(JSON.parse(this.response));
+            const jsonRes = JSON.parse(this.response);
+            const sections = jsonRes.data.section;
+            let html = ""
+            let i = 1;
+            sections.forEach(section => {
+                html +=
+                `<div class="document-section-heading">
+                    <div class="document-section-title">Section ${i}: ${section}</div>
+                    <img class="edit-document-section-btn" src="../images/edit-document-section-bw.svg" loading="lazy">                    
+                </div>
+                <textarea class="text-editor-content md-textarea"></textarea>`;
+                i++;
+            });
+            document.getElementById('document-sections-container').innerHTML = html;
+        }
+        else alert('Server error. Please try again later');
+
+    }, false);
+
+    request.send();
 }
 
 

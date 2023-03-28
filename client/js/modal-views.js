@@ -10,5 +10,3 @@ const COLLAB_SETTINGS =
 
 const EDIT_DOCUMENT_SECTION = 
     ``;
-
-c

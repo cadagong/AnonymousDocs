@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AnonymousDocs</title>
+
+    <link rel="stylesheet" href="../css/form.css" />
+    <script src="../js/login.js"></script>
+  </head>
+  <body>
+        <div class="form-container">
+            <form action="/user/login" method="post">
+                <h2>Login</h2>
+                    
+                <div class="form-fields-container">
+                    <label for="username">Username</label>
+                    <input id="username-input" type="text" placeholder="Enter Username" name="username" required>
+                
+                    <label for="password">Password</label>
+                    <input id="password-input" type="password" placeholder="Enter Password" name="password" required>
+                
+                <!-- <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label> -->
+                
+                </div>
+            
+                <!-- <div class="container" style="background-color:#f1f1f1">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a href="#">password?</a></span>
+                </div> -->
+            </form>            
+            <div id="response-msg-div"></div>
+            <button id="login-btn" type="submit">Login</button>
+        </div>
+    </body>
+</html>
