@@ -28,12 +28,14 @@ window.addEventListener('load', function() {
                     if (!tokenData) {
                         tokenData = {
                             user: resJson.user.username,
-                            token: resJson.token
+                            token: resJson.token,
+                            user_id: resJson.user._id
                         }
                     }
                     else {
                         tokenData.user = resJson.user.username;
                         tokenData.token = resJson.token;
+                        tokenData.user_id = resJson.user._id;
                     }
 
                     // set new token in localStorage

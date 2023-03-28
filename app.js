@@ -90,6 +90,7 @@ try {
 
 const StudentDAO = require("./student")
 const DocumentDAO = require("./document")
+const SectionDAO = require("./section")
 app.listen(SERVER_PORT, () => {
     console.log("server up at " + SERVER_PORT)
 })
@@ -357,7 +358,13 @@ app.get("/document/view1", (req, res) => {
         DocumentDAO.Document.findOne({ _id: req.query.id })
         .then((doc) => {
             if (student.documents.includes(doc._id.toString())) {
-                res.json({ success: true, data: doc })
+                SectionDAO.Section.find({
+                    '_id': { $in: doc.section }
+                }).then((sectionsFound) => {
+                    res.json({ success: true, document: doc, sections: sectionsFound })
+                }).catch((err_find_secs) => {
+                    res.json({ success: false, error: "unauth access 2 sections" })
+                })
             } else {
                 res.json({ success: false, error: "unauth access 2 doc" })
             }
@@ -370,6 +377,31 @@ app.get("/document/view1", (req, res) => {
         res.json({ success: false, error: err })
     })
 })
+
+// app.get("/document/view1", (req, res) => {
+//     console.log(req);
+//     checkToken(req)
+//     .then((student) => {
+//         if (!req.query.id) {
+//             res.json({ success: false, error: "document must have id" })
+//             return
+//         }
+//         DocumentDAO.Document.findOne({ _id: req.query.id })
+//         .then((doc) => {
+//             if (student.documents.includes(doc._id.toString())) {
+//                 res.json({ success: true, data: doc })
+//             } else {
+//                 res.json({ success: false, error: "unauth access 2 doc" })
+//             }
+//         })
+//         .catch((err) => {
+//             res.json({ success: false, error: err })
+//         })
+//     })
+//     .catch((err) => {
+//         res.json({ success: false, error: err })
+//     })
+// })
 
 app.get("/document/viewall", (req, res) => {
     checkToken(req)
@@ -424,6 +456,44 @@ app.post("/document/comment", (req, res) => {
 app.post("/document/createsection", (req, res) => {
     checkToken(req)
     .then((student) => {
+        if (!req.body.id && !req.body.username && !req.body.title) {
+            res.json({ success: false, error: "document must have id and user to assign 2 section" })
+            return
+        }
+        DocumentDAO.Document.findOne({ _id: req.body.id })
+        .then((doc) => {
+            if (student.documents.includes(doc._id.toString())) {
+                SectionDAO.Section.create({
+                    title: req.body.title, 
+                    assignedUser: student._id.toString(), 
+                    text: ""
+                }).then((newsec) => {
+                    doc.section.push(newsec._id.toString())
+                    doc.save().then((docsv) => {
+                        res.json({ success: true, data: docsv })
+                    }).catch((errd) => {
+                        SectionDAO.Section.findByIdAndDelete(newsec._id)
+                        res.json({ success: false, error: "cannot add new section" })
+                    })
+                }).catch((err_CreateSec) => {
+                    res.json({ success: false, error: "cannot add new section" })
+                })
+            } else {
+                res.json({ success: false, error: "unauth access 2 doc" })
+            }
+        })
+        .catch((err) => {
+            res.json({ success: false, error: err })
+        })
+    })
+    .catch((err) => {
+        res.json({ success: false, error: err })
+    })
+})
+
+app.post("/document/createsection", (req, res) => {
+    checkToken(req)
+    .then((student) => {
         if (!req.body.id) {
             res.json({ success: false, error: "document must have id" })
             return
@@ -451,36 +521,34 @@ app.post("/document/createsection", (req, res) => {
 })
 
 app.post("/document/writesection", (req, res) => {
-    console.log(req);
     checkToken(req)
     .then((student) => {
-        if (!req.body.id || (req.body.sectionid == undefined) || !req.body.sectiontext) {
+        if (!req.body.id || req.body.sectionid == undefined || !req.body.sectiontext) {
             res.json({ success: false, error: "document must have id" })
             return
         }
-        /*let docId = req.body.id;
-        let stuId = student._id.toString();
-        if (!mapSectionQueue.has(docId)) {
-            mapSectionQueue.set(docId, [])
-        }
-        let currDocQueue = mapSectionQueue.get(docId)
-        if (!currDocQueue.includes(stuId)) {
-            currDocQueue.push(stuId)
-        }
-        if (currDocQueue[0] === stuId) {
-            // grant access
-            
-        } else {
-            res.json({ success: false, error: err })
-        }*/
         DocumentDAO.Document.findOne({ _id: req.body.id })
         .then((doc) => {
-            if (student.documents.includes(doc._id.toString())) {
-                doc.section[req.body.sectionid] = req.body.sectiontext;
-                doc.save().then((docsv) => {
-                    res.json({ success: true, data: docsv })
-                }).catch((errd) => {
-                    res.json({ success: false, error: "cannot add new section" })
+            console.log(doc)
+            console.log(student._id.toString())
+            if (student.documents.includes(doc._id.toString()) &&
+                (doc.collaborators.includes(student._id.toString()) ||
+                 doc.creator == student._id.toString())) {
+                SectionDAO.Section.findOne({ _id: req.body.sectionid })
+                .then((foundsec) => {
+                    if (foundsec.assignedUser.toString() == student._id.toString()) {
+                        foundsec.text = req.body.sectiontext
+                        foundsec.save().then((savedSec) => {
+                            res.json({ success: true, doc: doc, section: savedSec })
+                        }).catch((err_save_sec) => {
+                            res.json({ success: false, error: "cannot save section" })
+                        })
+                    } else {
+                        res.json({ success: false, error: "unauthroized section" })
+                    }
+                })
+                .catch((find_sec_err) => {
+                    res.json({ success: false, error: "no such section" })
                 })
             } else {
                 res.json({ success: false, error: "unauth access 2 doc" })
@@ -494,3 +562,48 @@ app.post("/document/writesection", (req, res) => {
         res.json({ success: false, error: err })
     })
 })
+
+// app.post("/document/writesection", (req, res) => {
+//     console.log(req);
+//     checkToken(req)
+//     .then((student) => {
+//         if (!req.body.id || (req.body.sectionid == undefined) || !req.body.sectiontext) {
+//             res.json({ success: false, error: "document must have id" })
+//             return
+//         }
+//         /*let docId = req.body.id;
+//         let stuId = student._id.toString();
+//         if (!mapSectionQueue.has(docId)) {
+//             mapSectionQueue.set(docId, [])
+//         }
+//         let currDocQueue = mapSectionQueue.get(docId)
+//         if (!currDocQueue.includes(stuId)) {
+//             currDocQueue.push(stuId)
+//         }
+//         if (currDocQueue[0] === stuId) {
+//             // grant access
+            
+//         } else {
+//             res.json({ success: false, error: err })
+//         }*/
+//         DocumentDAO.Document.findOne({ _id: req.body.id })
+//         .then((doc) => {
+//             if (student.documents.includes(doc._id.toString())) {
+//                 doc.section[req.body.sectionid] = req.body.sectiontext;
+//                 doc.save().then((docsv) => {
+//                     res.json({ success: true, data: docsv })
+//                 }).catch((errd) => {
+//                     res.json({ success: false, error: "cannot add new section" })
+//                 })
+//             } else {
+//                 res.json({ success: false, error: "unauth access 2 doc" })
+//             }
+//         })
+//         .catch((err) => {
+//             res.json({ success: false, error: err })
+//         })
+//     })
+//     .catch((err) => {
+//         res.json({ success: false, error: err })
+//     })
+// })

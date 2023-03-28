@@ -7,16 +7,15 @@ const DocumentSchema = new Mongoose.Schema({
         trim: true
     }, 
     creator: {
-        type: String, 
-        required: true
+        type: { type: Mongoose.Schema.Types.ObjectId, ref: 'Student' }, 
     },
-    section: [String], 
+    section: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Section' }], 
     sectionQueue: [[String]], 
-    collaborators: [], 
+    collaborators: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Student' }], 
     comments: [{ 
         comment: String, 
         date: Date, 
-        user: String
+        user: { type: Mongoose.Schema.Types.ObjectId, ref: 'Student' }
     }]
 }, { collection: "documents" })
 

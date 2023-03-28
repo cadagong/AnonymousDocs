@@ -2,11 +2,11 @@ Run the following lines, after replacing the strings
 
 npm install express jsonwebtoken body-parser bcryptjs mongoose dotenv
 
-export DB_URL="<replace with link>"
-export SECRET_CODE="<replace with secret code>"
-export SERVER_PORT="<replace with desired port no., a number>"
-export SALT_ROUNDS="<replace with hash rounds, a number>"
-export TOKEN_EXP_SECS="<replace expriation time (in secs), a number>"
+export DB_URL="mongodb+srv://wigtailw:738DgZyuML60yd7K@wigtail.4uly8rj.mongodb.net/?retryWrites=true&w=majority"
+export SECRET_CODE="SHA256"
+export SERVER_PORT="8080"
+export SALT_ROUNDS="10"
+export TOKEN_EXP_SECS="10000"
 
 npm app.js
 
