@@ -451,6 +451,7 @@ app.post("/document/createsection", (req, res) => {
 })
 
 app.post("/document/writesection", (req, res) => {
+    console.log(req);
     checkToken(req)
     .then((student) => {
         if (!req.body.id || (req.body.sectionid == undefined) || !req.body.sectiontext) {
@@ -477,7 +478,7 @@ app.post("/document/writesection", (req, res) => {
             if (student.documents.includes(doc._id.toString())) {
                 doc.section[req.body.sectionid] = req.body.sectiontext;
                 doc.save().then((docsv) => {
-                    res.json({ success: true, error: docsv })
+                    res.json({ success: true, data: docsv })
                 }).catch((errd) => {
                     res.json({ success: false, error: "cannot add new section" })
                 })

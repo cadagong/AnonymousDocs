@@ -6,11 +6,9 @@ const IMAGES_PATH = '../images';
  * and retrieve textarea text from localStorage.
  */
 window.addEventListener('load', function() {
-    setEventListeners();
+    //setEventListeners();
     getDocumentSections();
 
-    const textArea = document.querySelector('.md-textarea');
-    textArea.focus();
 })
 
 
@@ -83,7 +81,8 @@ function setEventListeners() {
     const textAreas = Array.from(document.querySelectorAll('.md-textarea'));
     textAreas.forEach((textArea) => {
         textArea.addEventListener('input', function(e) {
-            setLocalStorage();
+            console.log('input');
+            updateDocumentSection(parseInt(textArea.getAttribute('sectionID')), textArea.value);
             updatePreview();
         });
     });
@@ -156,7 +155,7 @@ function updatePreview() {
     
     let content = '';
     textAreas.forEach((textArea) => {
-        content += `\n${textArea.value}`;
+        content += `\n\n${textArea.value}`;
     });
 
     document.getElementById('md-preview').innerHTML = marked.parse(content);
@@ -164,7 +163,7 @@ function updatePreview() {
 
 
 /**
- * Get saved textarea text from localStorage
+ * Get textarea text from server
  */
 function getDocumentSections() {
     const tokenData = JSON.parse(window.localStorage.getItem('anonymous-docs-token-data'));
@@ -183,17 +182,19 @@ function getDocumentSections() {
             const jsonRes = JSON.parse(this.response);
             const sections = jsonRes.data.section;
             let html = ""
-            let i = 1;
-            sections.forEach(section => {
+            let i = 0;
+            sections.forEach(sectionText => {
                 html +=
                 `<div class="document-section-heading">
-                    <div class="document-section-title">Section ${i}: ${section}</div>
+                    <div class="document-section-title">Section ${i+1}</div>
                     <img class="edit-document-section-btn" src="../images/edit-document-section-bw.svg" loading="lazy">                    
                 </div>
-                <textarea class="text-editor-content md-textarea"></textarea>`;
+                <textarea class="text-editor-content md-textarea" sectionID="${i}">${sectionText}</textarea>`;
                 i++;
             });
             document.getElementById('document-sections-container').innerHTML = html;
+            setEventListeners();
+            updatePreview();
         }
         else alert('Server error. Please try again later');
 
@@ -204,9 +205,31 @@ function getDocumentSections() {
 
 
 /**
- * Save textarea text to localStorage
+ * Send textarea text to server
  */
-function setLocalStorage() {
-    const textArea = document.querySelector('.md-textarea');
-    window.localStorage.setItem('anonymous-docs-text-data', JSON.stringify(textArea.value));
+function updateDocumentSection(sectionID, sectionText) {
+    const tokenData = JSON.parse(window.localStorage.getItem('anonymous-docs-token-data'));
+    const token = tokenData.token;
+
+    const request = new XMLHttpRequest();
+    const url = '/document/writesection';
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${token}`);
+    
+    request.addEventListener("load", function(){           
+        if (this.status == 200) {
+            console.log(this.response);
+        }
+        else alert('Server error. Please try again later');
+
+    }, false);
+
+    const json = { 
+        id: document.getElementById('filename').getAttribute('doc-id'),
+        sectionid: sectionID,
+        sectiontext: sectionText
+    };
+    const data = JSON.stringify(json);
+    request.send(data);
 }
