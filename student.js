@@ -12,7 +12,7 @@ const StudentSchema = new Mongoose.Schema({
         type: String, 
         required: true
     }, 
-    documents: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Student' }]
+    documents: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Document' }]
 }, { collection: "students" })
 
 exports.Student = Mongoose.model("Student", StudentSchema)
