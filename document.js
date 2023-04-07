@@ -7,7 +7,8 @@ const DocumentSchema = new Mongoose.Schema({
         trim: true
     }, 
     creator: {
-        type: { type: Mongoose.Schema.Types.ObjectId, ref: 'Student' }, 
+        type: Mongoose.Schema.Types.ObjectId, ref: 'Student', 
+        required: true, 
     },
     section: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Section' }], 
     sectionQueue: [[String]], 
